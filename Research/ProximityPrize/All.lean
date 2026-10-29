@@ -1340,6 +1340,7 @@ import Research.ProximityPrize.Frontier._FormDHankelHermiteTurnover
 import Research.ProximityPrize.Frontier._FormDUpperBoundHankelCriterion
 import Research.ProximityPrize.Frontier._FourierSparseZeros
 import Research.ProximityPrize.Frontier._FourierSparseZerosTight
+import Research.ProximityPrize.Frontier._FreeVariableResidualsRefuted
 import Research.ProximityPrize.Frontier._FrobeniusEnergyDescent
 import Research.ProximityPrize.Frontier._FrobeniusTrivialDynamics
 import Research.ProximityPrize.Frontier._FrontalConjugateGateCollapse

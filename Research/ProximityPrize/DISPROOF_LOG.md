@@ -54501,3 +54501,44 @@ scripts/lake-locked.sh build Research.ProximityPrize.Frontier._IsolatedCountResi
 
 Evidence class: Lean proof certificate; all declarations of the file use only `propext`,
 `Classical.choice` and `Quot.sound`.
+### [164-free-variable-residuals-refuted] Three named residuals leave their key quantity free and are false as stated
+
+Date: 2026-10-29. Targets: `ProximityGap.Frontier.FrobeniusEnergyDescent.FiberCountResidual`
+(`Frontier/_FrobeniusEnergyDescent.lean`), `ProximityGap.Frontier.ARX1.SteinWickResidual`
+(`Frontier/_ArxSteinWraparoundNoGo.lean`) and
+`ArkLib.ProximityGap.AutocorrelationRecursion.CrossBandResidual`
+(`Frontier/Sweep_A02_AutocorrelationRecursion.lean`). These are statement-level refutations of
+named residuals, not production Delta Star counterexamples.
+
+Each recorded `Prop` quantifies over the quantity the residual is meant to bound as a free
+variable, with no definition tying it to `μ_n`, the field or the depth:
+
+- `FiberCountResidual` asserts `W ≤ Wick - EC` for all reals with `Ep = EC + W` and
+  `EC ≤ Wick`. `EC = Wick = 0`, `W = 1` violates it; `not_fiberCountResidual_of_lt` records the
+  general witness shape `Wick - EC < W`.
+- `SteinWickResidual C` asserts `dcCount Nr n r p ≤ C * wickBudget n r` for every
+  `Nr n r p : ℕ` with `1 ≤ r`, `p ≠ 0`. At `n = r = p = 1` this is `Nr - 1 ≤ C` for every
+  `Nr`; `Nr = ⌈C⌉₊ + 2` refutes it, so `not_steinWickResidual` holds for every real `C`.
+- `CrossBandResidual n` asserts `Er ≤ (2r-1)‼·n^r` for every band rung `r` and every real
+  `Er ≥ 0`. `Er = (2r-1)‼·n^r + 1` refutes it at any band rung
+  (`not_crossBandResidual_of_band`); `r = 1` lies in the band for every `n ≥ 1` because
+  `e/2 > 1`, so `not_crossBandResidual` holds for every `n ≥ 1`.
+
+Consequence: `open_core_of_FiberCountResidual` and `stein_route_conditional` consume a false
+hypothesis and are vacuous. The `residual_band_nonempty_n8` non-vacuity record shows the band is
+nonempty, not that the predicate is satisfiable.
+
+Scope: the intended quantities (the reduction-map fiber count at the saddle depth, the
+DC-subtracted wraparound count with the actual collision count `N_r`, and the depth-`r` additive
+energy of `μ_n`) are not defined by these `Prop`s and are not touched. The Wick/BGK wall and the
+production Delta Star problem remain open. This does not close #164.
+
+Reproduction at the final PR commit:
+
+```
+scripts/pg-iterate.sh Research/ProximityPrize/Frontier/_FreeVariableResidualsRefuted.lean
+scripts/lake-locked.sh build Research.ProximityPrize.Frontier._FreeVariableResidualsRefuted
+```
+
+Evidence class: Lean proof certificate; all five declarations of the file use only `propext`,
+`Classical.choice` and `Quot.sound`.
